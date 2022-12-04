@@ -18,15 +18,16 @@ func RunContainerInitProcess(command string, args []string) (err error) {
 	// systemd 加入linux之后, mount namespace 就变成 shared by default, 所以你必须显示
 	// 声明你要这个新的mount namespace独立。
 	if err = syscall.Mount("", "/", "", syscall.MS_PRIVATE|syscall.MS_REC, ""); err != nil {
-		return
+		return err
 	}
 
 	// MS_NOEXEC 本文件系统不允许执行其他程序
 	// MS_NOSUID 不允许 set-user-ID 和 set-group-ID
 	// MS_NODEV  默认参数
 	defauleMountFlags := syscall.MS_NOEXEC | syscall.MS_NOSUID | syscall.MS_NODEV
-	if err == syscall.Mount("proc", "/proc", "proc", uintptr(defauleMountFlags), "") {
-		return
+	if err = syscall.Mount("proc", "/proc", "proc", uintptr(defaultMountFlags), ""); err != nil {
+		logrus.Errorf("mount proc fail %v", err)
+		return err
 	}
 
 	argv := []string{command}

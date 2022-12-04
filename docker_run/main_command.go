@@ -7,6 +7,18 @@ import (
 	"myDocker/container"
 )
 
+// 定义 initCommand 的具体操作，此操作为内部方法，禁止外部调用
+var initCommand = cli.Command{
+	Name:  "init",
+	Usage: "Init container process run user's process in container. Do not call it outside",
+	Action: func(context *cli.Context) error {
+		log.Infof("init come on")
+		cmd := context.Args().Get(0)
+		log.Infof("command %s", cmd)
+		return container.RunContainerInitProcess(cmd, nil)
+	},
+}
+
 // 定义 runCommand Flags ，其作用类似于运行命令时使用一来指定参数
 var runCommand = cli.Command{
 	Name:  "run",
@@ -22,6 +34,7 @@ var runCommand = cli.Command{
 			return fmt.Errorf("missing container command")
 		}
 		cmd := context.Args().Get(0)
+		log.Infof("args: %s", context.Args())
 		tty := context.Bool("ti")
 		Run(tty, cmd)
 		return nil
@@ -31,18 +44,5 @@ var runCommand = cli.Command{
 			Name:  "ti",
 			Usage: "enable tty",
 		},
-	},
-}
-
-// 定义 initCommand 的具体操作，此操作为内部方法，禁止外部调用
-var initCommand = cli.Command{
-	Name:  "init",
-	Usage: "Init container process run user's process in container. Do not call it outside",
-	Action: func(context *cli.Context) error {
-		log.Infof("init come on")
-		cmd := context.Args().Get(0)
-		log.Infof("command %s", cmd)
-		err := container.RunContainerInitProcess(cmd, nil)
-		return err
 	},
 }

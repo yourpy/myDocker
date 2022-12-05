@@ -9,3 +9,11 @@
 
 ### docker_cgroups_addPipeline
 使用 pipeline 在父子进程之间传递消息
+
+### 进入容器
+目前没有提供 exec 命令进入容器，可以自己手动进入
+```sh
+ps -ef  # 找出容器的 pid
+nsenter -t 容器PID  -m -u -i -n -p  # 敲该命令进入容器
+
+```

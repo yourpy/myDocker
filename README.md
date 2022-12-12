@@ -25,6 +25,7 @@ go build .
 
 ### docker_cgroups_addPivotroot
 在 docker_cgroups_addPipeline 基础上增加实现新创建的容器和父进程目录不同的功能，目前docker 中还是使用的系统原有proc，不怎么纯净，所以使用 busybox 来更换 docker 的系统挂载点
+> buid 出来的 bin 需要放在 busybox 目录下运行，因为 busybox 下才有 /proc 文件夹
 
 
 ### 进入容器

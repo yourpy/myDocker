@@ -2,10 +2,22 @@
 手写docker
 
 ### docker_run
-使用 namespace 生成容器，编译后可使用 `. /myDocker run -ti /bin/ls` 可生成一个容器
+使用 namespace 生成容器
+```
+# 编译
+go build .
+# 启动一个容器
+. /myDocker run -ti /bin/sh
+```
 
 ### docker_cgroups
 在 docker_run 基础上使用 cgroups 对容器进行资源限制
+```
+# 编译
+go build .
+# 启动一个容器
+. /myDocker run -ti -mem 100m stress --vm-bytes 200m --vm-keep -m 1
+```
 
 ### docker_cgroups_addPipeline
 在 docker_cgroups 基础上增加使用 pipeline 在父子进程之间传递消息

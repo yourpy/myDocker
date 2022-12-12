@@ -17,6 +17,7 @@ go build .
 go build .
 # 启动一个容器
 . /myDocker run -ti -mem 100m stress --vm-bytes 200m --vm-keep -m 1
+# 通过 top 命令可以看到内存占用被限制在 100m
 ```
 
 ### docker_cgroups_addPipeline
